@@ -28,7 +28,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Development',
             hash: true,
-            minify: true,
+            minify: false,
         }),
     ],
     output: {
