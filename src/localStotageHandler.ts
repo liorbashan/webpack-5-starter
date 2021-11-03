@@ -1,10 +1,4 @@
 export class LocalStorageHandler {
-  public logMessage(msg: string | null): void {
-    if (msg !== null) {
-      console.log(msg);
-    }
-  }
-
   public getLocalStorageValue(key: string): string | null {
     return localStorage.getItem(key) ? localStorage.getItem(key) : null;
   }
@@ -16,9 +10,26 @@ export class LocalStorageHandler {
     localStorage.setItem(key, value);
   }
 
-  public isJson(str: string): boolean {
+  public logGclid(key: string, gclid: string): void {
+    const currentStorageValue: string | null = this.getLocalStorageValue(key);
+    let gclidsObj: any = {};
+    if (currentStorageValue) {
+      gclidsObj = JSON.parse(currentStorageValue);
+      if (gclidsObj.hasOwnProperty(gclid)) {
+        gclidsObj[gclid] = Number(gclidsObj[gclid]) + 1;
+      } else {
+        gclidsObj[gclid] = 1;
+      }
+    } else {
+      gclidsObj[gclid] = 1;
+    }
+
+    this.setValueToLocalStorage(key, gclidsObj);
+  }
+
+  public isJson(obj: any): boolean {
     try {
-      JSON.parse(str);
+      JSON.stringify(obj);
     } catch (e) {
       return false;
     }
