@@ -1,22 +1,22 @@
 export class QueryStringHandler {
-    public normalizeUrlSearchParams(): URLSearchParams {
-        let normalizedQuerySearch: string = '';
-        const paramsString: string = window.location.search;
-        let searchParams: URLSearchParams = new URLSearchParams(paramsString);
-        for (const key in searchParams) {
-            normalizedQuerySearch += `${key.toLowerCase()}=${searchParams.get(key)}`;
-        }
-        let result: URLSearchParams = new URLSearchParams(normalizedQuerySearch);
+  public normalizeUrlSearchParams(): URLSearchParams {
+    let normalizedQuerySearch: string = "";
+    const paramsString: string = window.location.search;
+    let searchParams: URLSearchParams = new URLSearchParams(paramsString);
+    searchParams.forEach((key, value) => {
+      normalizedQuerySearch += `${value.toLowerCase()}=${key}&`;
+    });
+    let result: URLSearchParams = new URLSearchParams(normalizedQuerySearch);
 
-        return result;
-    }
+    return result;
+  }
 
-    public getGclidValue(searchParams: URLSearchParams): string | null {
-        if (searchParams.has('gclid')) {
-            const gclidValue = searchParams.get('gclid');
-            return gclidValue;
-        } else {
-            return null;
-        }
+  public getGclidValue(searchParams: URLSearchParams): string | null {
+    if (searchParams.has("gclid")) {
+      const gclidValue: string | null = searchParams.get("gclid");
+      return gclidValue;
+    } else {
+      return null;
     }
+  }
 }
