@@ -13,7 +13,8 @@ export class LocalStorageHandler {
   public logGclid(key: string, gclid: string): void {
     const currentStorageValue: string | null = this.getLocalStorageValue(key);
     let gclidsObj: any = {};
-    if (currentStorageValue) {
+    if (currentStorageValue && this.isJsonString(currentStorageValue)) {
+
       gclidsObj = JSON.parse(currentStorageValue);
       if (gclidsObj.hasOwnProperty(gclid)) {
         gclidsObj[gclid] = Number(gclidsObj[gclid]) + 1;
@@ -30,6 +31,15 @@ export class LocalStorageHandler {
   public isJson(obj: any): boolean {
     try {
       JSON.stringify(obj);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  public isJsonString(str: string): boolean {
+    try {
+      JSON.parse(str);
     } catch (e) {
       return false;
     }
